@@ -27,3 +27,7 @@ jobs:
       - name: Check if tree is available
         run: |
           which tree || echo "tree not found"
+      
+      - name: Check sudo access
+        run: |
+          sudo -n true && "Sudo available" || echo "Sudo NOT avaialbe"
