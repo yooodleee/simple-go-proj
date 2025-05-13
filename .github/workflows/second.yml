@@ -12,8 +12,8 @@ jobs:
     steps:
       - name: Install tree
         run: |
-          brew update
-          brew install tree
+          sudo apt update
+          sudo apt install -y tree
 
       - name: Execute tree
         run: |
