@@ -3,18 +3,18 @@
 name: file tree
 
 on:
-    workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
+  file-tree:
+    runs-on: self-hosted
 
-    file-tree:
+    steps:
+      - name: Install tree
+        run: |
+          brew update
+          brew install tree
 
-        runs-on: self-hosted
-
-        steps:
-        - name: Install tree
-          run: |
-            brew update
-            brew install tree
-        - name: Execute tree
-          run: time tree | tee filetreelist.txt
+      - name: Execute tree
+        run: |
+          time tree | tee filetreelist.txt
