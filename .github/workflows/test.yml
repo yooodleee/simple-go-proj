@@ -1,0 +1,29 @@
+name: debug file tree
+
+on:
+  workflow_dispatch:
+
+jobs:
+  file-tree:
+    runs-on: self-hosted
+
+    steps:
+      - name: Show OS Info
+        run: |
+          uname -a
+          cat /etc/os-release || echo "No os-release file found"
+
+      - name: Check available package managers
+        run: |
+          command -v apt || echo "apt not found"
+          command -v yum || echo "yum not found"
+          command -v apk || echo "apk not found"
+          command -v pacman || echo "pacman not found"
+
+      - name: Try installing tree (without sudo)
+        run: |
+          apt update && apt install -y tree || echo "apt install failed"
+
+      - name: Check if tree is available
+        run: |
+          which tree || echo "tree not found"
