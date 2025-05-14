@@ -10,27 +10,17 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Install tree
+      - name: Download and install tree locally
         run: |
-          apt update
-          apt install -y tree
+          mkdir -p ~/.local/bin
+          curl -LO http://mama.indstate.edu/users/ice/tree/src/tree-1.8.0.tgz
+          tar -xzf tree-1.8.0.tgz
+          cd tree-1.8.0
+          make
+          cp tree ~/.local/bin/
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Execute tree
         run: |
-          time tree | tee filetreelist.txt
-      
-      - name: Show OS Info
-        run: |
-          umame -a
-          cat /etc/os-release || echo "No os-release file found"
-    
-      - name: Check if tree exists
-        run: which tree || echo "tree not found"
-    
-      - name: Debug OS
-        run: |
-          if command -v lsb_release > /dev/null; then
-            lsb_release -a
-          else
-            echo "lsb_release not found"
-          fi
+          ~/.local/bin/tree | tee filetreelist.txt
+
