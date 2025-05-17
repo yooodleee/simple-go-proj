@@ -14,15 +14,17 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-
-    - uses: gradle/gradle-build-action@v2
-      with:
-        arguments: build
-    - uses: gradle/gradle-build-action@v2
+    
+    - name: Run tests
+      uses: gradle/gradle-build-action@v2
       with:
         arguments: test
 
+    - name: Check build artifacts
+      run: ls -l build/libs
+    
     - name: Upload Artifact
+      if: always()
       uses: actions/upload-artifact@v3
       with:
         name: greetings-deploy
@@ -43,6 +45,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: greetings-deploy
+
+      - name: Check downloaded files
+        run: ls -R
+
       - name: release to dev
         uses: softprops/action-gh-release@v0.1.15
         with:
@@ -67,7 +73,11 @@ jobs:
       - name: Download candidate artifacts
         uses: actions/download-artifact@v3
         with:
-          name: archive.zip
+          name: greetings-deploy
+
+      - name: Check downloaded files
+        run: ls -R
+        
       - name: GH Release
         uses: softprops/action-gh-release@v0.1.15
         with:
