@@ -23,8 +23,12 @@ jobs:
     - name: Check build artifacts
       run: ls -l build/libs
     
+    - name: Check build/libs
+      run: |
+        echo "Contents of build/libs:"
+        ls -l build/libs
+
     - name: Upload Artifact
-      if: always()
       uses: actions/upload-artifact@v3
       with:
         name: greetings-deploy
