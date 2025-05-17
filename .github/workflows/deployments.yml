@@ -25,8 +25,8 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: archive.zip
-        path: build/libs
+        name: greetings-deploy
+        path: build/libs/greetings-deploy.jar
 
   deploy-dev:
 
@@ -42,7 +42,7 @@ jobs:
       - name: Download candidate artifacts
         uses: actions/download-artifact@v3
         with:
-          name: archive.zip
+          name: greetings-deploy
       - name: release to dev
         uses: softprops/action-gh-release@v0.1.15
         with:
