@@ -33,7 +33,7 @@ jobs:
         echo "Found JAR: $JAR_PATH"
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: greetings-deploy
         path: ${{ steps.find_jar.outputs.JAR_PATH }}
@@ -50,7 +50,7 @@ jobs:
 
     steps:
       - name: Download candidate artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: greetings-deploy
 
@@ -79,7 +79,7 @@ jobs:
 
     steps:
       - name: Download candidate artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: greetings-deploy
 
