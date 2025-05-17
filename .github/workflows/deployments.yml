@@ -21,13 +21,22 @@ jobs:
         arguments: build
 
     - name: Check build/libs
-      run: ls -l build/libs
+      run:
+        echo "Contents of build/libs:"
+        ls -l build/libs
+
+    - name: Find generated JAR
+      id: find_jar
+      run: |
+        JAR_PATH=$(find build/libs -type f -name "*.jar" | head -n 1)
+        echo "JAR_PATH=$JAR_PATH" >> $GITHUB_OUTPUT
+        echo "Found JAR: $JAR_PATH"
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
         name: greetings-deploy
-        path: build/libs/greetings-deploy.jar
+        path: ${{ steps.find_jar.outputs.JAR_PATH }}
 
   deploy-dev:
 
@@ -56,7 +65,7 @@ jobs:
           prerelease: true
           draft: true
           name: dev
-          files: greetings-deploy.jar
+          files: greetings-deploy/*.jar
 
   deploy-prod:
 
@@ -84,4 +93,4 @@ jobs:
           token: ${{ secrets.PROD_TOKEN }}
           generate_release_notes: true
           name: Production
-          files: greetings-deploy.jar
+          files: greetings-deploy/*.jar
