@@ -15,18 +15,13 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     
-    - name: Run tests
+    - name: Run build
       uses: gradle/gradle-build-action@v2
       with:
-        arguments: test
+        arguments: build
 
-    - name: Check build artifacts
-      run: ls -l build/libs
-    
     - name: Check build/libs
-      run: |
-        echo "Contents of build/libs:"
-        ls -l build/libs
+      run: ls -l build/libs
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
