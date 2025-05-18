@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.google.guava:32.1.2-jre") // guava 최신 버전
+    implementation("com.google.guava:guava:32.1.2-jre") // guava 최신 버전
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.0")
 }
