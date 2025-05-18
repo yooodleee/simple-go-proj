@@ -41,7 +41,7 @@ jobs:
     - name: Check if JAR was found
       if: ${{ steps.find_jar.outputs.JAR_PATH == '' }}
       run: |
-        echo: "❌ JAR file not found in build/libs"
+        echo "❌ JAR file not found in build/libs"
         exit 1
     
     - name: Upload Artifact
