@@ -34,7 +34,15 @@ jobs:
     - name: Find JAR file
       id: find_jar
       run: |
-        echo "JAR_PATH=$(find build/libs -type f -name "*.jar" | head -n 1)" >> $GITHUB_OUTPUT
+        JAR_PATH=$(find build/libs -type f -name "*.jar" | head -n 1)
+        echo "JAR_PATH=$JAR_PATH"
+        echo "JAR_PATH=$JAR_PATH" >> "$GITHUB_OUTPUT"
+
+    - name: Check if JAR was found
+      if: ${{ steps.find_jar.outputs.JAR_PATH == '' }}
+      run: |
+        echo: "❌ JAR file not found in build/libs"
+        exit 1
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
