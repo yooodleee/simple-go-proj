@@ -31,13 +31,11 @@ jobs:
         echo "Contents of build/libs:"
         ls -l build/libs
 
-    - name: Find generated JAR
+    - name: Find JAR file
       id: find_jar
       run: |
-        JAR_PATH=$(find build/libs -type f -name "*.jar" | head -n 1)
-        echo "JAR_PATH=$JAR_PATH" >> $GITHUB_OUTPUT
-        echo "Found JAR: $JAR_PATH"
-
+        echo "JAR_PATH=$(find build/libs -type f -name "*.jar" | head -n 1)" >> $GITHUB_OUTPUT
+    
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
