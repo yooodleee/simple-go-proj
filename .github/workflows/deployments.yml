@@ -28,7 +28,7 @@ jobs:
     - name: Find JAR file
       id: find_jar
       run: |
-        JAR_PATH=$(find build/libs -type f -name "*.jar" | head -n 1)
+        JAR_PATH=$(find app/build/libs -type f -name "*.jar" | head -n 1)
         if [ -z "$JAR_PATH" ]; then
           echo "❌ JAR file not found in build/libs"
           exit 1
