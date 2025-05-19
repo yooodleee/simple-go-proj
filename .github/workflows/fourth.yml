@@ -48,3 +48,18 @@ jobs:
     
       - name: Get stage
         run: echo "The build stage is ${{ steps.set-debug-stage.outputs.BUILD_STAGE }}"
+
+  report:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Get stage
+        run: |
+          STAGE="${{ needs.setup.outputs.BUILD_STAGE }}"
+          echo "The build stage is: ${STAGE:-unknown}"
+    
+      - name: Output full context (debug)
+        run: |
+          echo "Workflow: $GITHUB_WORKFLOW"
+          echo "Job: $GITHUB_JOB"
+          echo "Stage: ${{ needs.setup.outputs.BUILD_STAGE }}"
