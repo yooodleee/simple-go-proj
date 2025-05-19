@@ -35,7 +35,7 @@ jobs:
       run: |
         JAR_PATH=$(find app/build/libs -type f -name "*.jar" | head -n 1)
         if [ -z "$JAR_PATH" ]; then
-          echo "❌ JAR file not found in build/libs"
+          echo "❌ JAR file not found in app/build/libs"
           exit 1
         fi
         echo "JAR_PATH=$JAR_PATH" >> "$GITHUB_OUTPUT"
