@@ -1,0 +1,38 @@
+on:
+  # Allows you to run this workflow from another workflow
+  workflow_call:
+    inputs:
+      title:
+        required: true
+        type: string
+      body:
+        required: true
+        type: string
+  
+  # Allows you to call this manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      title: 
+        description: 'Issue title'
+        required: true
+      body:
+        description: 'Issue body'
+        required: true
+
+jobs:
+  create_issue_on_failure:
+    name: Create GitHub Issue on Failure
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Post issue via REST API
+        run: |
+          TITLE="Failure: ${{ inputs.title }}"
+          BODY="Details: ${{ inputs.body }}"
+          curl --request POST \
+          --url https://api.github.com/repos/${{ github.repository }}/issues \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' \
+          --data "{\"title\":\"${TITLE}\",\"body\":\"${BODY}\"}" \
+          --fail
