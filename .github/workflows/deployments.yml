@@ -28,12 +28,12 @@ jobs:
     - name: Copy jar to greetings-deploy
       run: |
         mkdir -p greetings-deploy
-        cp build/libs/*.jar greetings-deploy/
+        cp app/build/libs/*.jar greetings-deploy/
 
     - name: Find JAR file
       id: find_jar
       run: |
-        JAR_PATH=$(find build/libs -type f -name "*.jar" | head -n 1)
+        JAR_PATH=$(find app/build/libs -type f -name "*.jar" | head -n 1)
         if [ -z "$JAR_PATH" ]; then
           echo "❌ JAR file not found in build/libs"
           exit 1
