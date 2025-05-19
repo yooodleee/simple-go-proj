@@ -36,3 +36,15 @@ jobs:
           --header 'content-type: application/json' \
           --data "{\"title\":\"${TITLE}\",\"body\":\"${BODY}\"}" \
           --fail
+  
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      BUILD_STAGE: ${{ steps.set-debug-stage.outputs.BUILD_STAGE }}
+    steps:
+      - name: Set debug
+        id: set-debug-stage
+        run: echo "BUILD_STAGE=debug" >> $GITHUB_OUTPUT
+    
+      - name: Get stage
+        run: echo "The build stage is ${{ steps.set-debug-stage.outputs.BUILD_STAGE }}"
