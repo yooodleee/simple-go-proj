@@ -20,23 +20,6 @@ on:
         required: true
 
 jobs:
-  create_issue_on_failure:
-    name: Create GitHub Issue on Failure
-    runs-on: ubuntu-latest
-    permissions:
-      issues: write
-    steps:
-      - name: Post issue via REST API
-        run: |
-          TITLE="Failure: ${{ inputs.title }}"
-          BODY="Details: ${{ inputs.body }}"
-          curl --request POST \
-          --url https://api.github.com/repos/${{ github.repository }}/issues \
-          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          --header 'content-type: application/json' \
-          --data "{\"title\":\"${TITLE}\",\"body\":\"${BODY}\"}" \
-          --fail
-  
   setup:
     runs-on: ubuntu-latest
     outputs:
@@ -45,21 +28,50 @@ jobs:
       - name: Set debug
         id: set-debug-stage
         run: echo "BUILD_STAGE=debug" >> $GITHUB_OUTPUT
-    
-      - name: Get stage
-        run: echo "The build stage is ${{ steps.set-debug-stage.outputs.BUILD_STAGE }}"
-
+  
   report:
     runs-on: ubuntu-latest
     needs: setup
+    outputs:
+      changelog: ${{ steps.changelog.outputs.clean_changelog }}
+      clean_changelog: ${{ steps.changelog.outputs.clean_changelog }}
+      version: ${{ steps.changelog.outputs.version }}
     steps:
       - name: Get stage
         run: |
           STAGE="${{ needs.setup.outputs.BUILD_STAGE }}"
-          echo "The build stage is: ${STAGE:-unknown}"
-    
+          echo "Stage: ${STAGE:-unknown}"
       - name: Output full context (debug)
         run: |
           echo "Workflow: $GITHUB_WORKFLOW"
           echo "Job: $GITHUB_JOB"
           echo "Stage: ${{ needs.setup.outputs.BUILD_STAGE }}"
+      - name: Conventional Change Action
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@v3.14.0
+
+  build:
+    runs-on: ubuntu-latest
+    needs: report
+    outputs:
+      artifact-tag: ${{ needs.report.outputs.version }}
+    steps:
+      - name: Print tag
+        run: echo "Version is ${{ needs.report.outputs.version }}"
+      
+  create_issue_on_failure:
+    if: failure()
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Posst issue via REST API
+        run: |
+          TITLE="Failure: ${{ inputs.title }}"
+          BODY="Details: ${{ inputs.body }}"
+          curl --request POST \
+            --url https://api.github.com/repos/${{ github.repository}}/issues \
+            --header 'Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+            --header 'Content-Type: application/json' \
+            --data "{\"title":\"${TITLE}\",\"body\":\"${BODY}\"}" \
+            --fail
