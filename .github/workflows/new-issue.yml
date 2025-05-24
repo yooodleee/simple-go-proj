@@ -11,6 +11,8 @@ on:
     branches:
       - 'rel/**'
       - '!rel/**-beta'
+    paths:
+      - '**.go'
 
 jobs:
   notify-on-issue:
