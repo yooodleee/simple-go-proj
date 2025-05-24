@@ -18,10 +18,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Send Slack Notifiaction
+      - name: Send Slack Notification
         run: |
           payload="{
-            \"text\": "\🔔 *Issue Event: ${{ github.event.action }}*\n
+            \"text\": \"🛎️ *Issue Event: ${{ github.event.action }}*\n
             *Title:* ${{ github.event.issue.title }}\n
             *Body:* ${{ github.event.issue.body || 'No content' }}\n
             *Author:* ${{ github.event.issue.user.login }}\n
