@@ -1,0 +1,21 @@
+name: Notify on New Issue
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  notify-for-issue: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show issue details
+        run: |
+          ehco "New Issue Opened!"
+          echo "Title: ${{ github.event.issue.title }}"
+          echo "Body: ${{ github.event.issue.body }}"
+
+      - name: Send Slack Notification
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text":"A new issue was opened: '${{ github.event.issue.title }}'"}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
