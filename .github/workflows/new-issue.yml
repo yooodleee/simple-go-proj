@@ -16,15 +16,20 @@ on:
 jobs:
   notify-for-issue: 
     runs-on: ubuntu-latest
-    steps:
-      - name: Show issue details
-        run: |
-          echo "New Issue Opened!"
-          echo "Title: ${{ github.event.issue.title }}"
-          echo "Body: ${{ github.event.issue.body }}"
 
-      - name: Send Slack Notification
+    steps:
+      - name: Send Slack Notifiaction
         run: |
+          payload="{
+            \"text\": "\🔔 *Issue Event: ${{ github.event.action }}*\n
+            *Title:* ${{ github.event.issue.title }}\n
+            *Body:* ${{ github.event.issue.body || 'No content' }}\n
+            *Author:* ${{ github.event.issue.user.login }}\n
+            *URL:* ${{ github.event.issue.html_url }}\"
+          }"
+
+          echo "$payload"
+
           curl -X POST -H 'Content-type: application/json' \
-          --data '{"text":"A new issue was opened: '${{ github.event.issue.title }}'"}' \
-          ${{ secrets.SLACK_WEBHOOK_URL }}
+            --data "$payload" \
+            ${{ secrets.SLACK_WEBHOOK_URL }}
