@@ -1,35 +1,127 @@
-name: Notify on New Issue
+name: Notify on Issue Activity
 
 on:
   issues:
     types: [opened, edited, closed]
-  pull_request:
-    types: [opened, closed]
-  push:
-    branches:
-      - main
-      - 'rel/v*'
-    tags:
-      - v1.*
-      - beta
 
 jobs:
-  notify-for-issue: 
+  notify-on-issue:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Send Slack Notification
+      - name: Notify on Issue Opened
+        if: ${{ github.event.action == 'opened' }}
         run: |
-          payload="{
-            \"text\": \"🛎️ *Issue Event: ${{ github.event.action }}*\n
-            *Title:* ${{ github.event.issue.title }}\n
-            *Body:* ${{ github.event.issue.body || 'No content' }}\n
-            *Author:* ${{ github.event.issue.user.login }}\n
-            *URL:* ${{ github.event.issue.html_url }}\"
-          }"
+          echo "Sending Slack notification for opened issue..."
+          echo '{"blocks":[
+            {
+              "type": "header",
+              "text": {
+                "type": "plain_text",
+                "text": "🆕 New Issue Created"
+              }
+            },
+            {
+              "type": "section",
+              "fields": [
+                {
+                  "type": "mrkdwn",
+                  "text": "*Title:*\n${{ github.event.issue.title }}"
+                },
+                {
+                  "type": "mrkdwn",
+                  "text": "*Author:*\n${{ github.event.issue.user.login }}"
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": "*Body:*\n${{ github.event.issue.body }}"
+              }
+            },
+            {
+              "type": "context",
+              "elements": [
+                {
+                  "type": "mrkdwn",
+                  "text": "<${{ github.event.issue.html_url }}|View Issue on GitHub>"
+                }
+              ]
+            }
+          ]}' > payload.json
+          curl -X POST -H "Content-type: application/json" --data @payload.json ${{ secrets.SLACK_WEBHOOK_URL }}
 
-          echo "$payload"
+      - name: Notify on Issue Edited
+        if: ${{ github.event.action == 'edited' }}
+        run: |
+          echo "Sending Slack notification for edited issue..."
+          echo '{"blocks":[
+            {
+              "type": "header",
+              "text": {
+                "type": "plain_text",
+                "text": "✏️ Issue Edited"
+              }
+            },
+            {
+              "type": "section",
+              "fields": [
+                {
+                  "type": "mrkdwn",
+                  "text": "*Title:*\n${{ github.event.issue.title }}"
+                },
+                {
+                  "type": "mrkdwn",
+                  "text": "*Editor:*\n${{ github.event.sender.login }}"
+                }
+              ]
+            },
+            {
+              "type": "context",
+              "elements": [
+                {
+                  "type": "mrkdwn",
+                  "text": "<${{ github.event.issue.html_url }}|View Issue on GitHub>"
+                }
+              ]
+            }
+          ]}' > payload.json
+          curl -X POST -H "Content-type: application/json" --data @payload.json ${{ secrets.SLACK_WEBHOOK_URL }}
 
-          curl -X POST -H 'Content-type: application/json' \
-            --data "$payload" \
-            ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Notify on Issue Closed
+        if: ${{ github.event.action == 'closed' }}
+        run: |
+          echo "Sending Slack notification for closed issue..."
+          echo '{"blocks":[
+            {
+              "type": "header",
+              "text": {
+                "type": "plain_text",
+                "text": "✅ Issue Closed"
+              }
+            },
+            {
+              "type": "section",
+              "fields": [
+                {
+                  "type": "mrkdwn",
+                  "text": "*Title:*\n${{ github.event.issue.title }}"
+                },
+                {
+                  "type": "mrkdwn",
+                  "text": "*Closed by:*\n${{ github.event.sender.login }}"
+                }
+              ]
+            },
+            {
+              "type": "context",
+              "elements": [
+                {
+                  "type": "mrkdwn",
+                  "text": "<${{ github.event.issue.html_url }}|View Closed Issue>"
+                }
+              ]
+            }
+          ]}' > payload.json
+          curl -X POST -H "Content-type: application/json" --data @payload.json ${{ secrets.SLACK_WEBHOOK_URL }}
