@@ -8,6 +8,9 @@ on:
       - 'prod/*'
     tags-ignore:
       - 'rc*'
+    branches:
+      - 'rel/**'
+      - '!rel/**-beta'
 
 jobs:
   notify-on-issue:
