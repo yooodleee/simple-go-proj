@@ -13,6 +13,8 @@ on:
       - '!rel/**-beta'
     paths:
       - '**.go'
+      - 'module1/**'
+      - '!module1/data/**'
     paths-ignore:
       - 'data/**'
 
