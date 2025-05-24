@@ -2,7 +2,9 @@ name: Notify on New Issue
 
 on:
   issues:
-    types: [opened]
+    types: [opened, edited, closed]
+  pull_request:
+    types: [opened, closed]
 
 jobs:
   notify-for-issue: 
