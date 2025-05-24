@@ -13,6 +13,8 @@ on:
       - '!rel/**-beta'
     paths:
       - '**.go'
+    paths-ignore:
+      - 'data/**'
 
 jobs:
   notify-on-issue:
