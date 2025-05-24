@@ -5,6 +5,13 @@ on:
     types: [opened, edited, closed]
   pull_request:
     types: [opened, closed]
+  push:
+    branches:
+      - main
+      - 'rel/v*'
+    tags:
+      - v1.*
+      - beta
 
 jobs:
   notify-for-issue: 
