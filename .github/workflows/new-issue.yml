@@ -3,6 +3,11 @@ name: Notify on Issue Activity
 on:
   issues:
     types: [opened, edited, closed]
+  push:
+    branches-ignore:
+      - 'prod/*'
+    tags-ignore:
+      - 'rc*'
 
 jobs:
   notify-on-issue:
