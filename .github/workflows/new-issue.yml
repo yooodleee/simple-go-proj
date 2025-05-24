@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Show issue details
         run: |
-          ehco "New Issue Opened!"
+          echo "New Issue Opened!"
           echo "Title: ${{ github.event.issue.title }}"
           echo "Body: ${{ github.event.issue.body }}"
 
