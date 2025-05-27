@@ -1,7 +1,19 @@
 name: Create issue
 
 on:
-  push:
+  workflow_call:
+    inputs:
+      title:
+        required: true
+        type: string
+      body:
+        required: true
+        type: string
+    
+    outputs:
+      issue-num: 
+        description: 'Created issue number'
+        value: ${{ jobs.create.outputs.issue-num }}
 
 jobs:
   create:
@@ -11,4 +23,5 @@ jobs:
     steps:
       - id: create
         run: |
-          echo "issue_number=123" >> $GITHUB_OUTPUT
+          ISSUE_NUMBER=123 
+          echo "issue_number=$ISSUE_NUMBER" >> $GITHUB_OUTPUT
