@@ -1,0 +1,14 @@
+name: Create issue
+
+on:
+  push:
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    outputs:
+      issue-num: ${{ steps.create.outputs.issue_number }}
+    steps:
+      - id: create
+        run: |
+          echo "issue_number=123" >> $GITHUB_OUTPUT
