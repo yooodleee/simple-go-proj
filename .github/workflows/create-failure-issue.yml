@@ -8,6 +8,10 @@ on:
       title:
         required: true
         type: string
+
+      body:
+        required: true
+        type: string
   
   # Allows you to call this manually from the Actions tab
   workflow_dispatch:
@@ -33,7 +37,7 @@ jobs:
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' \
           --data '{
-            "title": "Failure: ${{ inputs.title }}"
+            "title": "Failure: ${{ inputs.title }}",
             "body": "Details: ${{ inputs.body }}"
           }' \
           --fail
