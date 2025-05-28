@@ -33,7 +33,7 @@ jobs:
           https://api.github.com/repos/${{ github.repository }}/issues \
           -d "$(jq -n --arg title "${{ inputs.title }}" --arg body "${{ inputs.body }}" '(title: $title, body: $body)')")
 
-          echo "API response: $Response"
+          echo "API response: $RESPONSE"
 
           ISSUE_NUMBER=$(echo "$RESPONSE" | jq -r '.number')
 
