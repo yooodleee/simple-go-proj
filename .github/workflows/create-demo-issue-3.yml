@@ -9,6 +9,10 @@ jobs:
       matrix:
         prod: [prod1, prod2]
         level: [dev, stage, prod]
+    
+    permissions:
+      issues: write
+      contents: write
 
     runs-on: ubuntu-latest
     steps:
