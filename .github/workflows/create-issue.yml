@@ -15,6 +15,9 @@ on:
         description: 'Created issue number'
         value: ${{ jobs.create.outputs.issue-num }}
 
+permissions:
+  issues: write 
+
 jobs:
   create:
     runs-on: ubuntu-latest
