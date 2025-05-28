@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create issue using reusable workflow
-        uses: yooodleee/simple-go-proj/.github/workflow/create-issue.yml@main
+        uses: ./.github/workflow/create-issue.yml@main
         with:
           title: "${{ matrix.prod }} issue"
           body: "Update for ${{ matrix.level }}"
