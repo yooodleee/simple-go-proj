@@ -44,4 +44,3 @@ jobs:
           JAR_FILE=$(ls build/libs/*.jar | head -n 1)
           echo "Running $JAR_FILE"
           java -jar "$JAR_FILE"
-        working-directory: app
