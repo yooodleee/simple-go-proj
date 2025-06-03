@@ -41,6 +41,6 @@ jobs:
       
       - name: Run built JAR
         run: |
-          JAR_FILE=$(ls ./build/libs/*.jar | head -n 1)
+          JAR_FILE=$(ls app/build/libs/*.jar | head -n 1)
           echo "Running $JAR_FILE"
           java -jar "$JAR_FILE"
