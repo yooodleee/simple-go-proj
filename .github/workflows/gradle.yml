@@ -24,7 +24,7 @@ jobs:
         run: ls -l
 
       - name: Make gradlew executable
-        run: chmod +x ./simple-go-proj/gradlew
+        run: chmod +x ./gradlew
         working-directory: app
 
       - name: Cache Gradle
