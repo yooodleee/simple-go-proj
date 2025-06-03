@@ -19,9 +19,12 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+      
+      - name: Check gradlew existence
+        run: ls -l
 
       - name: Make gradlew executable
-        run: chmod +x ./gradlew
+        run: chmod +x ./simple-go-proj/gradlew
         working-directory: app
 
       - name: Cache Gradle
