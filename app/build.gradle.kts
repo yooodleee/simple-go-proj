@@ -31,7 +31,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = "org.example.Main"
+    mainClass = "org.example.App"
 }
 
 tasks.named<Test>("test") {
@@ -42,7 +42,7 @@ tasks.named<Test>("test") {
 
 tasks.jar {
     manifest {
-        attributes["Main-Class"] = "com.example.Main"
+        attributes["Main-Class"] = "com.example.App"
     }
 
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
