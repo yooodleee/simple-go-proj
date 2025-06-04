@@ -9,3 +9,5 @@ Repo for shwing characteristics of a simple repository with Go code for GitHub A
 [![file tree](https://github.com/yooodleee/simple-go-proj/actions/workflows/second.yml/badge.svg)](https://github.com/yooodleee/simple-go-proj/actions/workflows/second.yml)
 [![Go Build and Test](https://github.com/yooodleee/simple-go-proj/actions/workflows/go-build.yml/badge.svg)](https://github.com/yooodleee/simple-go-proj/actions/workflows/go-build.yml)
 [![sidemo](https://github.com/yooodleee/simple-go-proj/actions/workflows/sidemo.yml/badge.svg)](https://github.com/yooodleee/simple-go-proj/actions/workflows/sidemo.yml)
+[![Simple Pipe](https://github.com/yooodleee/simple-go-proj/actions/workflows/simple-pipe.yml/badge.svg)](https://github.com/yooodleee/simple-go-proj/actions/workflows/simple-pipe.yml)
+[![Verify file](https://github.com/yooodleee/simple-go-proj/actions/workflows/third.yml/badge.svg)](https://github.com/yooodleee/simple-go-proj/actions/workflows/third.yml)
