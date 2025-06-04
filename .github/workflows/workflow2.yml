@@ -1,0 +1,27 @@
+name: Workflow 2 Do processing that needs r/w access and/or secrets
+# R/W repo access
+# Access to secrets
+
+on:
+  workflow_run:
+    workflows: ["Workflow 1 Handle untrusted code"]
+    types: 
+      - completed
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    if: >
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success'
+    steps:
+      - name: Download processed results
+        uses: actions/download-artifact@v3
+        with:
+          name: processed-data
+
+      - name: Do secure processing using results
+        run: |
+          cat processed-data/results.txt
+          echo "Now doing trusted work using secrets or write access."
+          

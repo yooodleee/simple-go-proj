@@ -1,0 +1,23 @@
+name: Workflow 1 Handle untrusted code
+# R/O repo access
+# Cannot access secrets
+
+on:
+  pull_request:
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Do processing of pull request securely
+        run: |
+          mkdir -p output
+          echo "Processed at $(date)" > output/result.txt
+
+      - name: Persist results from processing
+        uses: actions/upload-artifact@v3
+        with:
+          name: processed-data
+          path: output/
